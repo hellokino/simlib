@@ -17,7 +17,7 @@ unit viewerMain;
 {$i simdesign.inc}
 
 // enable this if you want to use picture preview in open dialogs
-{$define usePicturePreview}
+{.$define usePicturePreview}
 
 
 interface

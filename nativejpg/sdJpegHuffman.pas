@@ -111,7 +111,7 @@ type
   Tsd8bitHuffmanEncoder = class(TsdHuffmanCoder)
   private
     FHistogram: Tsd8bitHuffmanHistogram;
-    FNodes: TsdHuffmanNodeList;
+    FNodes: TsdHuffmanNodeList; // list of huffman nodes (count, code and leaves)
     function GetHistogram: Psd8bitHuffmanHistogram;
   public
     constructor Create; override;
@@ -426,11 +426,18 @@ var
 
 // main
 begin
+  // initialise the FNodes before clearing and adding!
+  if not assigned(FNodes) then
+  begin
+    FNodes := TsdHuffmanNodeList.Create(False);
+  end;
+
   // Start by adding nodes in sorted fashion
   FNodes.Clear;
   for i := 0 to length(FCodes) - 1 do
   begin
-    if FHistogram[i] = 0 then continue;
+    if FHistogram[i] = 0 then
+      continue;
     N := TsdHuffmanNode.Create;
     N.Code := @FCodes[i];
     N.Count := FHistogram[i];

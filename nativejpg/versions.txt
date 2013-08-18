@@ -6,6 +6,11 @@ Maintained by Nils Haeck (SimDesign BV)
 * = enhancement
 + = addition
 
+Version 1.33 (06aug2012)
+! Fixed initialisation problem in Tsd8bitHuffmanEncoder.OptimiseHuffmanFromHistogram
+  and lossless transforms now work.
+* Checked demos jkpegtest, simple, tiledemo, viewer and viewer32
+
 Version 1.32 (05jul2011)
 * Separated TsdJpegImage.LoadJpeg and TsdJpegImage.UpdateBitmap
 + events TsdJpegImage.OnBeforeLossless and TsdJpegImage.OnAfterLossless

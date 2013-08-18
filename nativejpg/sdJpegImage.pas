@@ -28,7 +28,7 @@ const
 
   // Version number changes with updates. See "versions.txt" for a list of
   // updated features.
-  cNativeJpgVersion = '1.32';
+  cNativeJpgVersion = '1.33';
 
 
 type
@@ -759,7 +759,7 @@ var
   Warning: boolean;
   InternalCS, OutputCS: TsdJpegColorSpace;
   // helper
-  procedure ClassAndFormat(C: TsdColorTransformClass; F: TsdPixelFormat);
+  procedure SetClassAndFormat(C: TsdColorTransformClass; F: TsdPixelFormat);
   begin
     AClass := C;
     AFormat := F;
@@ -767,13 +767,13 @@ var
 begin
   // default class and pixelformat
   case FJpegInfo.FFrameCount of
-  1: ClassAndFormat(TsdNullTransform8bit, spf8bit);
-  2: ClassAndFormat(TsdNullTransform16bit, spf16bit);
-  3: ClassAndFormat(TsdNullTransform24bit, spf24bit);
-  4: ClassAndFormat(TsdNullTransform32bit, spf32bit);
+  1: SetClassAndFormat(TsdNullTransform8bit, spf8bit);
+  2: SetClassAndFormat(TsdNullTransform16bit, spf16bit);
+  3: SetClassAndFormat(TsdNullTransform24bit, spf24bit);
+  4: SetClassAndFormat(TsdNullTransform32bit, spf32bit);
   else
     DoDebugOut(Self, wsWarn, 'FCodingInfo.FrameCount = 0');
-    ClassAndFormat(nil, spf24bit);
+    SetClassAndFormat(nil, spf24bit);
   end;
 
   // Determine stored colorspace
@@ -812,69 +812,69 @@ begin
   case InternalCS of
   jcGray:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformGrayToBGR, spf24bit);
+    jcRGB: SetClassAndFormat(TsdTransformGrayToBGR, spf24bit);
     jcGray:;
     else
       Warning := True;
     end;
   jcGrayA:
     case OutputCS of
-    jcRGB:  ClassAndFormat(TsdTransformGrayAToBGR, spf24bit);
-    jcRGBA: ClassAndFormat(TsdTransformGrayAToBGRA, spf32bit);
+    jcRGB:  SetClassAndFormat(TsdTransformGrayAToBGR, spf24bit);
+    jcRGBA: SetClassAndFormat(TsdTransformGrayAToBGRA, spf32bit);
     jcGrayA:;
     else
       Warning := True;
     end;
   jcRGB:
     case OutputCS of
-    jcRGBA: ClassAndFormat(TsdTransformRGBToBGRA, spf32bit);
-    jcRGB: ClassAndFormat(TsdTransformInvertTriplet24bit, spf24bit);
+    jcRGBA: SetClassAndFormat(TsdTransformRGBToBGRA, spf32bit);
+    jcRGB: SetClassAndFormat(TsdTransformInvertTriplet24bit, spf24bit);
     else
       Warning := True;
     end;
   jcRGBA:
     case OutputCS of
-    jcRGb: ClassAndFormat(TsdTransformRGBAToBGR, spf24bit);
+    jcRGb: SetClassAndFormat(TsdTransformRGBAToBGR, spf24bit);
     jcRGBA:;
     else
       Warning := True;
     end;
   jcYCbCr, jcPhotoYCc:
     case OutputCS of
-    jcGray: ClassAndFormat(TsdTransformYCbCrToGray, spf8bit);
-    jcRGB:  ClassAndFormat(TsdTransformYCbCrToBGR, spf24bit);
-    jcRGBA: ClassAndFormat(TsdTransformYCbCrToBGRA, spf32bit);
+    jcGray: SetClassAndFormat(TsdTransformYCbCrToGray, spf8bit);
+    jcRGB:  SetClassAndFormat(TsdTransformYCbCrToBGR, spf24bit);
+    jcRGBA: SetClassAndFormat(TsdTransformYCbCrToBGRA, spf32bit);
     else
       Warning := True;
     end;
   jcYCbCrA, jcPhotoYCcA:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformYCbCrAToBGR, spf24bit);
-    jcRGBA: ClassAndFormat(TsdTransformYCbCrAToBGRA, spf32bit);
+    jcRGB:  SetClassAndFormat(TsdTransformYCbCrAToBGR, spf24bit);
+    jcRGBA: SetClassAndFormat(TsdTransformYCbCrAToBGRA, spf32bit);
     else
       Warning := True;
     end;
   jcYCbCrK:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformYCbCrKToBGR, spf24bit);
+    jcRGB: SetClassAndFormat(TsdTransformYCbCrKToBGR, spf24bit);
     else
       Warning := True;
     end;
   jcCMYK:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformCMYKToBGR_Adobe, spf24bit);
+    jcRGB: SetClassAndFormat(TsdTransformCMYKToBGR_Adobe, spf24bit);
     else
       Warning := True;
     end;
   jcYCCK:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformYCCKToBGR, spf24bit);
+    jcRGB: SetClassAndFormat(TsdTransformYCCKToBGR, spf24bit);
     else
       Warning := True;
     end;
   jcITUCieLAB:
     case OutputCS of
-    jcRGB: ClassAndFormat(TsdTransformITUCIELabToBGR, spf24bit);
+    jcRGB: SetClassAndFormat(TsdTransformITUCIELabToBGR, spf24bit);
     else
       Warning := True;
     end;

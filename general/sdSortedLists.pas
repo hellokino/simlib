@@ -18,12 +18,10 @@
 }
 unit sdSortedLists;
 
-{.$i simdesign.inc}
-
 interface
 
 uses
-  Contnrs, SysUtils, sdDebug;
+  Contnrs, SysUtils;
 
 type
 
@@ -34,6 +32,21 @@ type
   TCustomObjectList = class(TObjectList)
   public
     procedure Append(AItem: TObject);
+  end;
+
+  // Keep a sorted list of objects, sort them by the object's locally unique ID (Luid),
+  // which is just an integer (32bits, instead of a real 128bits Guid).
+  // Override method GetLuid, it should return the Luid of object AItem.
+  // TLuidList is used for compatibility with legacy code (formerly TUniqueIDList)
+  TLuidList = class(TCustomObjectList)
+  protected
+    function GetLuid(AItem: TObject): integer; virtual; abstract;
+    function IndexByLuid(const ALuid: integer; out Index: integer): boolean;
+  public
+    function NextLuid: integer;
+    function HasLuid(const ALuid: integer): boolean;
+    procedure RemoveByLuid(const ALuid: integer);
+    function Add(AItem: TObject): integer;
   end;
 
   // Keep a sorted list of objects, sort them by the object's globally unique ID (Guid).
@@ -110,6 +123,7 @@ function CompareGuid(const Guid1, Guid2: TGUID): integer;
 function IsEqualGuid(const Guid1, Guid2: TGUID): boolean;
 function IsEmptyGuid(const AGuid: TGUID): boolean;
 function NewGuid: TGUID;
+// streaming of TGuid can be found in sdStreamableData.pas
 
 type
 
@@ -309,6 +323,72 @@ end;
 procedure TCustomObjectList.Append(AItem: TObject);
 begin
   Insert(Count, AItem);
+end;
+
+{ TLuidList }
+
+function TLuidList.Add(AItem: TObject): integer;
+begin
+  // do we have AItem?
+  if IndexByLuid(GetLuid(AItem), Result) then
+
+    // Replace existing
+    Put(Result, AItem)
+
+  else
+  begin
+    // Insert
+    Insert(Result, AItem);
+  end;
+end;
+
+function TLuidList.HasLuid(const ALuid: integer): boolean;
+var
+  Index: integer;
+begin
+  Result := IndexByLuid(ALuid, Index);
+end;
+
+function TLuidList.IndexByLuid(const ALuid: integer;
+  out Index: integer): boolean;
+var
+  Min, Max: integer;
+begin
+  Result := False;
+
+  // Find position for insert - binary method
+  Index := 0;
+  Min := 0;
+  Max := Count;
+  while Min < Max do
+  begin
+    Index := (Min + Max) div 2;
+    case CompareInteger(GetLuid(List[Index]), ALuid) of
+    -1: Min := Index + 1;
+     0: begin
+          Result := True;
+          exit;
+        end;
+     1: Max := Index;
+    end;
+  end;
+  Index := Min;
+end;
+
+function TLuidList.NextLuid: integer;
+begin
+  if Count = 0 then
+    Result := 1
+  else
+    Result := GetLuid(List[Count - 1]) + 1;
+end;
+
+procedure TLuidList.RemoveByLuid(const ALuid: integer);
+var
+  Index: integer;
+begin
+  if IndexByLuid(ALuid, Index) then
+    Delete(Index);
 end;
 
 { TGuidList }

@@ -52,12 +52,12 @@ uses
   sdMetadataJpg in '..\..\..\general\sdMetadataJpg.pas',
   sdMetadataCiff in '..\..\..\general\sdMetadataCiff.pas',
   sdJpegCoder in '..\..\sdJpegCoder.pas',
-  sdGraphicTypes in '..\..\..\bitmap\sdGraphicTypes.pas',
   NativeXml in '..\..\..\nativexml\NativeXml.pas',
   sdStreams in '..\..\..\general\sdStreams.pas',
   sdStringTable in '..\..\..\general\sdStringTable.pas',
   sdMetadataTiff in '..\..\..\general\sdMetadataTiff.pas',
-  sdBitmapConversionWin in '..\..\..\bitmap\sdBitmapConversionWin.pas';
+  sdBitmapConversionWin in '..\..\..\bitmap\sdBitmapConversionWin.pas',
+  sdBitmapResize in '..\..\..\bitmap\sdBitmapResize.pas';
 
 {$R *.res}
 

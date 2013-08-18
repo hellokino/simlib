@@ -7,6 +7,12 @@
   Copyright (c) 2007 - 2011 Simdesign B.V.
 
 }
+
+// unicode avoid implicit string cast warning
+{$ifdef UNICODE}
+{$WARN IMPLICIT_STRING_CAST OFF}
+{$endif UNICODE}
+
 // Delphi and FPC versions
 
 // Freepascal
@@ -74,6 +80,13 @@
 
 // Delphi XE / 15
 {$ifdef VER220}
+  {$define D7UP}
+  {$define D10UP}
+  {$define D15UP}
+{$endif}
+
+// Delphi XE2 / 16
+{$ifdef VER230}
   {$define D7UP}
   {$define D10UP}
   {$define D15UP}

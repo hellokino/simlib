@@ -749,7 +749,7 @@ begin
   for i := 0 to FACCoders.Count - 1 do
   begin
     C := FACCoders[i] as Tsd8bitHuffmanEncoder;
-    if assigned(C) then
+    if C is Tsd8bitHuffmanEncoder then
     begin
       SetLength(TsdDHTMarker(Result).FMarkerInfo, ItemCount + 1);
       Item := @TsdDHTMarker(Result).FMarkerInfo[ItemCount];

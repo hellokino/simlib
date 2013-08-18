@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   object ControlBar1: TControlBar
     Left = 0
     Top = 0
-    Width = 797
+    Width = 789
     Height = 26
     Align = alTop
     AutoSize = True
@@ -100,8 +100,8 @@ object frmMain: TfrmMain
   end
   object sbMain: TStatusBar
     Left = 0
-    Top = 479
-    Width = 797
+    Top = 475
+    Width = 789
     Height = 19
     Panels = <>
     SimplePanel = True
@@ -109,8 +109,8 @@ object frmMain: TfrmMain
   object nbMain: TNotebook
     Left = 0
     Top = 26
-    Width = 797
-    Height = 453
+    Width = 789
+    Height = 449
     Align = alClient
     TabOrder = 2
     object TPage
@@ -120,13 +120,13 @@ object frmMain: TfrmMain
       object Splitter1: TSplitter
         Left = 329
         Top = 0
-        Height = 453
+        Height = 449
       end
       object nbData: TNotebook
         Left = 332
         Top = 0
-        Width = 465
-        Height = 453
+        Width = 457
+        Height = 449
         Align = alClient
         TabOrder = 0
         object TPage
@@ -136,7 +136,7 @@ object frmMain: TfrmMain
           object Splitter2: TSplitter
             Left = 0
             Top = 257
-            Width = 465
+            Width = 457
             Height = 3
             Cursor = crVSplit
             Align = alTop
@@ -144,7 +144,7 @@ object frmMain: TfrmMain
           object pcData: TPageControl
             Left = 0
             Top = 0
-            Width = 465
+            Width = 457
             Height = 257
             ActivePage = tsTags
             Align = alTop
@@ -154,7 +154,7 @@ object frmMain: TfrmMain
               object stAttributes: TVirtualStringTree
                 Left = 0
                 Top = 0
-                Width = 457
+                Width = 449
                 Height = 229
                 Align = alClient
                 Font.Charset = DEFAULT_CHARSET
@@ -163,7 +163,6 @@ object frmMain: TfrmMain
                 Font.Name = 'Arial'
                 Font.Style = []
                 Header.AutoSizeIndex = 0
-                Header.DefaultHeight = 17
                 Header.Font.Charset = DEFAULT_CHARSET
                 Header.Font.Color = clWindowText
                 Header.Font.Height = -11
@@ -200,8 +199,8 @@ object frmMain: TfrmMain
           object pcDebug: TPageControl
             Left = 0
             Top = 260
-            Width = 465
-            Height = 193
+            Width = 457
+            Height = 189
             ActivePage = tsDebug
             Align = alClient
             TabOrder = 1
@@ -210,8 +209,8 @@ object frmMain: TfrmMain
               object reDebug: TRichEdit
                 Left = 0
                 Top = 0
-                Width = 457
-                Height = 165
+                Width = 449
+                Height = 161
                 Align = alClient
                 Font.Charset = ANSI_CHARSET
                 Font.Color = clWindowText
@@ -234,7 +233,7 @@ object frmMain: TfrmMain
         Left = 0
         Top = 0
         Width = 329
-        Height = 453
+        Height = 449
         Align = alLeft
         TabOrder = 1
         object TPage
@@ -245,7 +244,7 @@ object frmMain: TfrmMain
             Left = 0
             Top = 0
             Width = 329
-            Height = 453
+            Height = 449
             ActivePage = tsXmlTree
             Align = alClient
             TabOrder = 0
@@ -256,7 +255,7 @@ object frmMain: TfrmMain
                 Left = 0
                 Top = 0
                 Width = 321
-                Height = 425
+                Height = 421
                 Align = alClient
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -264,7 +263,6 @@ object frmMain: TfrmMain
                 Font.Name = 'Arial'
                 Font.Style = []
                 Header.AutoSizeIndex = 0
-                Header.DefaultHeight = 17
                 Header.Font.Charset = DEFAULT_CHARSET
                 Header.Font.Color = clWindowText
                 Header.Font.Height = -11

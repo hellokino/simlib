@@ -85,4 +85,11 @@
   {$define D15UP}
 {$endif}
 
+// Delphi XE2 / 16
+{$ifdef VER230}
+  {$define D7UP}
+  {$define D10UP}
+  {$define D15UP}
+{$endif}
+
 

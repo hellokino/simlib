@@ -17,6 +17,9 @@
 
   Please see the "ObjectToXML" demo for example usage of this unit.
 
+  New version made compatible with FPC by using conditional defines,
+  so the unit NativeXmlStorageFPC.pas is no longer required.
+
   Original Author: Nils Haeck M.Sc.
   Copyright (c) 2003-2011 Simdesign B.V.
 
@@ -653,7 +656,11 @@ var
     BaseType: PTypeInfo;
     S, Enum: string;
   begin
+    {$ifdef FPC}
+    BaseType := GetTypeData(PropType)^.CompType;
+    {$else}
     BaseType := GetTypeData(PropType)^.CompType^;
+    {$endif}
     for i := 0 to SizeOf(TIntegerSet) * 8 - 1 do
     begin
       if i in TIntegerSet(Value) then
@@ -706,7 +713,11 @@ var
     begin
       WritePropName;
       case PropType^.Kind of
+      {$ifdef FPC}
+      tkInteger:     WriteIntProp(PPropInfo(PropInfo)^.PropType, Value);
+      {$else}
       tkInteger:     WriteIntProp(PPropInfo(PropInfo)^.PropType^, Value);
+      {$endif}
       tkChar:        WriteString(Chr(Value));
       tkSet:         WriteSet(Value);
       tkEnumeration: WriteString(GetEnumName(PropType, Value));
@@ -863,6 +874,7 @@ var
       varOleStr:  AChildNode.Value := Utf8String(AValue);
       varString:  AChildNode.Value := Utf8String(AValue);
       varByte,
+      varWord,
       varSmallInt,
       varInteger: AChildNode.SetValueAsInteger(AValue);
       varSingle,
@@ -890,11 +902,19 @@ var
 begin
   if (PPropInfo(PropInfo)^.SetProc <> nil) and (PPropInfo(PropInfo)^.GetProc <> nil) then
   begin
+    {$ifdef FPC}
+    PropType := PPropInfo(PropInfo)^.PropType;
+    {$else}
     PropType := PPropInfo(PropInfo)^.PropType^;
+    {$endif}
     case PropType^.Kind of
     tkInteger, tkChar, tkEnumeration, tkSet: WriteOrdProp;
     tkFloat:                                 WriteFloatProp;
+    {$ifdef FPC}
+    tkAString, tkString, tkLString:          WriteStrProp;
+    {$else}
     tkString, tkLString:                     WriteStrProp;
+    {$endif}
     {$ifdef D7UP}
     tkWString:                               WriteWideStrProp;
     {$endif}
@@ -1045,7 +1065,11 @@ begin
         try
           AReader := TReader.Create(S, 4096);
           try
+            {$ifdef FPC}
+            while not AReader.EndOfList do
+            {$else}
             while AReader.Position < S.Size do
+            {$endif}
               TReaderAccess(AReader).ReadProperty(TPersistent(AObject));
           finally
             AReader.Free;
@@ -1101,7 +1125,11 @@ var
   begin
     Result := True;
     ASet := 0;
+    {$ifdef FPC}
+    EnumType := GetTypeData(PropType)^.CompType;
+    {$else}
     EnumType := GetTypeData(PropType)^.CompType^;
+    {$endif}
     S := copy(AValue, 2, length(AValue) - 2);
     repeat
       P := Pos(',', S);
@@ -1253,6 +1281,7 @@ var
     varOleStr:  Value := AChildNode.ValueUnicode;
     varString:  Value := AChildNode.Value;
     varByte,
+    varWord,  // fixes $0012 bug 
     varSmallInt,
     varInteger: Value := AChildNode.GetValueAsInteger;
     varSingle,
@@ -1282,7 +1311,11 @@ begin
   Result := True;
   if (PPropInfo(PropInfo)^.SetProc <> nil) and (PPropInfo(PropInfo)^.GetProc <> nil) then
   begin
+    {$ifdef FPC}
+    PropType := PPropInfo(PropInfo)^.PropType;
+    {$else}
     PropType := PPropInfo(PropInfo)^.PropType^;
+    {$endif}
     AChildNode := ANode.NodeByName(PPropInfo(PropInfo)^.Name);
     if assigned(AChildNode) then
     begin
@@ -1293,6 +1326,9 @@ begin
       tkSet:         SetSetProp(AChildNode.Value);
       tkEnumeration: SetEnumProp(AChildNode.Value);
       tkFloat:       SetFloatProp(AObject, PropInfo, AChildNode.GetValueAsFloat);
+      {$ifdef FPC}
+      tkAString,
+      {$endif}
       tkString,
       tkLString:     SetStrProp(AObject, PropInfo, AChildNode.Value);
       {$ifdef UNICODE}
@@ -1319,6 +1355,9 @@ begin
         tkSet:         SetOrdProp(AObject, PropInfo, PPropInfo(PropInfo)^.Default);
         tkEnumeration: SetOrdProp(AObject, PropInfo, PPropInfo(PropInfo)^.Default);
         tkFloat:       SetFloatProp(AObject, PropInfo, 0);
+        {$ifdef FPC}
+        tkAString,
+        {$endif}
         tkString,
         tkLString,
         tkWString:     SetStrProp(AObject, PropInfo, '');

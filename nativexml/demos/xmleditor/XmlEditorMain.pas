@@ -52,10 +52,13 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ActnList, ImgList, ComCtrls, ToolWin, ExtCtrls, VirtualTrees, Menus,
   StdCtrls,
+
   // nativexml
-  NativeXml, sdDebug,
+  NativeXml,
+
   // synedit
   SynEdit, SynMemo, SynEditHighlighter, SynHighlighterXML,
+
   // xmleditor app
   sdXmlOutputOptionsDlg;
 

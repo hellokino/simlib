@@ -249,7 +249,7 @@ end;
 
 function TsdSymbolList.GetItems(Index: integer): TsdSymbol;
 begin
-  Result := Get(Index);
+  Result := TsdSymbol(Get(Index));
 end;
 
 function TsdSymbolList.Find(ASymbol: TsdSymbol; var Index: integer): boolean;

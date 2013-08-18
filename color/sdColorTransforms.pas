@@ -112,6 +112,7 @@ type
     function SrcCellStride: integer; override;
     function DstCellStride: integer; override;
   end;
+
   // Abstract JFIF forward transform (YCbCr to RGB space)
   TsdJfifFwdTransform = class(TsdJfifTransform)
   private
